@@ -9,13 +9,15 @@
 import UIKit
 import EventKit
 import EventKitUI
-
+import Firebase
 
 class  ViewController: UIViewController {
 
     var eventStore = EKEventStore()
     var calendars: [EKCalendar]?
     var calendarArray = [EKEvent]()
+
+    
     
 
 //    input date for the start of our time period for looking for an event
