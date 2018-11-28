@@ -11,13 +11,31 @@ import Firebase
 
 class LoginViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
-
     @IBOutlet var loginEmail: UITextField!
     @IBOutlet var loginPassword: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+
+    
+
+
+    
+}
+    
+    
+    @IBAction func logInPressed(_ sender: UIButton) {
+    
+        Auth.auth().signIn(withEmail: loginEmail.text!, password: loginPassword.text!) { (user, error) in
+            if error != nil{
+                print(error!)
+            }else{
+                print("Log In Complete")
+                self.performSegue(withIdentifier: "logInComplete", sender: self)
+            }
+            
+        }
+    }
     
 }

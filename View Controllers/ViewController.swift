@@ -10,12 +10,20 @@ import UIKit
 import EventKit
 import EventKitUI
 import Firebase
+import Klendario
+
+
 
 class  ViewController: UIViewController {
 
     var eventStore = EKEventStore()
     var calendars: [EKCalendar]?
     var calendarArray = [EKEvent]()
+    var arrTest = [1,2,3]
+    
+
+    
+    
 
     
     
@@ -77,9 +85,38 @@ class  ViewController: UIViewController {
         
         checkCalendarStatus()
         getCalendarData()
+        
+        Klendario.getEvents(from: Date() - 20*100000,
+                            to: Date() ,
+                            in: calendars) { (events, error) in
+                                guard let events = events else { return }
+                                print("got \(events.count) events")
+                                print(Date())
+                                print(events.description)
+                                let arrTest = events.description
+                                
+        }
+
+        
+//        //TODO: Send the message to Firebase and save it in our database
+//        let messageDB = Database.database().reference().child("Message")
+//
+//        //        LO: this says what we are going to be saving down to the DB
+//
+//        let messsageDictionary = ["Sender": Auth.auth().currentUser?.email as Any,"CalendarInfo": calendarUW] as [String : Any]
+//
+//        //       LO: creates cutom random key for our message, allowing them to be saved with a unique identifier, saving our messaeg dictionary inside the message DB under an automatically generated ID
+//        messageDB.childByAutoId().setValue(messsageDictionary) { (error, reference) in
+//
+//            if error != nil{
+//                print(error!)}
+//            else {
+//                print("Message saved successfully")}}
+        
+        
         print(startDatePicker.date)
         print(endDatePicker.date)
-        print(calendarArray)
+
         
     }
     
