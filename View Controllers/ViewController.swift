@@ -93,7 +93,6 @@ class  ViewController: UIViewController {
                                 print("got \(events.count) events")
                                 print(Date())
                                 print(events.description)
-                                let arrTest = events.description
                                 
         }
 
