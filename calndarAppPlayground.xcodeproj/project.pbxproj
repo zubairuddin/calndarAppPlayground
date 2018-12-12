@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24061DAE21BD669E00602BE1 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24061DAD21BD669E00602BE1 /* EventsViewController.swift */; };
+		24061DB021BD9D8700602BE1 /* CalendarEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24061DAF21BD9D8700602BE1 /* CalendarEventModel.swift */; };
+		2415AF9521AE840200437EF8 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2415AF9421AE840200437EF8 /* ContactsViewController.swift */; };
+		2415AF9721AF4E2600437EF8 /* ContactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2415AF9621AF4E2600437EF8 /* ContactList.swift */; };
 		241DF60F21A9595D00A1333D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 241DF60E21A9595D00A1333D /* GoogleService-Info.plist */; };
 		24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */; };
 		24957FC421AAA5A0008E0AB7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */; };
 		24957FC621AAA5B1008E0AB7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */; };
+		24BE31AE21BF148400981307 /* CalendarEventModelRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BE31AD21BF148400981307 /* CalendarEventModelRealm.swift */; };
+		24BE31B021BF27F000981307 /* chosenDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BE31AF21BF27F000981307 /* chosenDates.swift */; };
 		24D07D36219E2B3C004C102E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D07D35219E2B3C004C102E /* AppDelegate.swift */; };
 		24D07D38219E2B3C004C102E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D07D37219E2B3C004C102E /* ViewController.swift */; };
 		24D07D3B219E2B3C004C102E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D07D39219E2B3C004C102E /* Main.storyboard */; };
@@ -20,10 +26,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24061DAD21BD669E00602BE1 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		24061DAF21BD9D8700602BE1 /* CalendarEventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventModel.swift; sourceTree = "<group>"; };
+		2415AF9421AE840200437EF8 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		2415AF9621AF4E2600437EF8 /* ContactList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactList.swift; sourceTree = "<group>"; };
 		241DF60E21A9595D00A1333D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		24BE31AD21BF148400981307 /* CalendarEventModelRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventModelRealm.swift; sourceTree = "<group>"; };
+		24BE31AF21BF27F000981307 /* chosenDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chosenDates.swift; sourceTree = "<group>"; };
 		24D07D32219E2B3C004C102E /* calndarAppPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = calndarAppPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D07D35219E2B3C004C102E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24D07D37219E2B3C004C102E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +60,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24061DB121BD9D8F00602BE1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				24061DAF21BD9D8700602BE1 /* CalendarEventModel.swift */,
+				24BE31AD21BF148400981307 /* CalendarEventModelRealm.swift */,
+				24BE31AF21BF27F000981307 /* chosenDates.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		24957FC221AAA2FC008E0AB7 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -55,6 +77,9 @@
 				24D07D37219E2B3C004C102E /* ViewController.swift */,
 				24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */,
 				24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */,
+				2415AF9421AE840200437EF8 /* ContactsViewController.swift */,
+				2415AF9621AF4E2600437EF8 /* ContactList.swift */,
+				24061DAD21BD669E00602BE1 /* EventsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -62,6 +87,7 @@
 		24D07D29219E2B3C004C102E = {
 			isa = PBXGroup;
 			children = (
+				24061DB121BD9D8F00602BE1 /* Model */,
 				24957FC221AAA2FC008E0AB7 /* View Controllers */,
 				24D07D34219E2B3C004C102E /* calndarAppPlayground */,
 				24D07D33219E2B3C004C102E /* Products */,
@@ -187,9 +213,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-calndarAppPlayground/Pods-calndarAppPlayground-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CVCalendar/CVCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Klendario/Klendario.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -197,9 +226,12 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CVCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Klendario.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -237,11 +269,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24BE31B021BF27F000981307 /* chosenDates.swift in Sources */,
 				24957FC421AAA5A0008E0AB7 /* LoginViewController.swift in Sources */,
+				24061DAE21BD669E00602BE1 /* EventsViewController.swift in Sources */,
 				24957FC621AAA5B1008E0AB7 /* RegisterViewController.swift in Sources */,
 				24D07D38219E2B3C004C102E /* ViewController.swift in Sources */,
 				24D07D36219E2B3C004C102E /* AppDelegate.swift in Sources */,
+				24BE31AE21BF148400981307 /* CalendarEventModelRealm.swift in Sources */,
+				2415AF9721AF4E2600437EF8 /* ContactList.swift in Sources */,
 				24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */,
+				24061DB021BD9D8700602BE1 /* CalendarEventModel.swift in Sources */,
+				2415AF9521AE840200437EF8 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

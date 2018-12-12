@@ -34,7 +34,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Access to calendar required for App</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Access to contacts require for App</string>
+	<string>Access to contacts required for App</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Access to reminders require for App</string>
 	<key>UILaunchStoryboardName</key>
