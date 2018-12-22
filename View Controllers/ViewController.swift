@@ -7,125 +7,73 @@
 //
 
 import UIKit
-import EventKit
-import EventKitUI
 import Firebase
-import Klendario
 
+
+var contactsArray = [
+    contactList(name:"Aurelia Aubourg", phoneNumber:"+447845581394",selectedContact: true)]
+
+
+var phoneNumber = "+447845581394"
+
+var ref: DatabaseReference!
+
+var user = Auth.auth().currentUser?.uid
+
+
+let dateFormatter = DateFormatter()
 
 
 
 class  ViewController: UIViewController {
-
-    var eventStore = EKEventStore()
-    var calendars: [EKCalendar]?
-    var calendarArray = [EKEvent]()
-    var arrTest = [1,2,3]
-    
-
-    
-    
-
-    
-    
-
-//    input date for the start of our time period for looking for an event
-    @IBOutlet var startDatePicker: UIDatePicker!
-    
-    
-//    input date for the end of our time period for looking for an event
-    @IBOutlet var endDatePicker: UIDatePicker!
-    
+    @IBAction func contactsCodeRun(_ sender: UIButton) {
+        
+        
+        
+        myContactListFirebase()
+        getUserIDs()
+        
+    }
     
     override func viewDidLoad() {
-        super.viewDidLoad()}
-    
-    func checkCalendarStatus(){
-        let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
+        super.viewDidLoad()
         
-        switch (status) {
-        case EKAuthorizationStatus.notDetermined:
-        requestAccessToCalendar()
-        case EKAuthorizationStatus.authorized:
-            print("We got access")
-        case EKAuthorizationStatus.denied:
-            print("No access")
-        
-        case .restricted:
-            print("Access denied")
-        }
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
     }
     
-    func requestAccessToCalendar() {
-        eventStore.requestAccess(to: EKEntityType.event, completion: {
-            (accessGranted: Bool, error: Error?) in
-            
-            if accessGranted == true {
-                print("we got access")
-            }
-            else{
-                print("no access")
-            }
-            
-        })
+    
+    
+    func myContactListFirebase(){
+    
+        let ref = Database.database().reference().child("eventSearches")
+        
+        let eventSearchArray: [String:Any] = ["startSearchDate": "2018-01-01","endSearchDate": "2019-01-01", "sunday": "0", "monday": "1", "tuesday": "1", "wednesday": "0", "thursday": "0", "friday": "0", "isAllDay": "0", "saturday": "0", "users": "userList"]
+        
+        
+        ref.child(user!).setValue(eventSearchArray)
+    
     }
     
     
-    
-//
-    func getCalendarData()  {
-
+    func getUserIDs(){
         
-       calendarArray = eventStore.events(matching: eventStore.predicateForEvents(withStart: startDatePicker.date, end: endDatePicker.date, calendars: calendars))
+    let ref = Database.database().reference().child("users")
+        
+    let userID = ref.queryOrderedByKey()
+        
+        print(userID)
+        
+        
         
     }
     
 
-    @IBAction func runTheCode(_ sender: UIButton) {
-        
-        checkCalendarStatus()
-        getCalendarData()
-        
-        Klendario.getEvents(from: Date() - 20*100000,
-                            to: Date() ,
-                            in: calendars) { (events, error) in
-                                guard let events = events else { return }
-                                print("got \(events.count) events")
-                                print(Date())
-                                print(events.description)
-                                
-        }
-
-        
-//        //TODO: Send the message to Firebase and save it in our database
-//        let messageDB = Database.database().reference().child("Message")
-//
-//        //        LO: this says what we are going to be saving down to the DB
-//
-//        let messsageDictionary = ["Sender": Auth.auth().currentUser?.email as Any,"CalendarInfo": calendarUW] as [String : Any]
-//
-//        //       LO: creates cutom random key for our message, allowing them to be saved with a unique identifier, saving our messaeg dictionary inside the message DB under an automatically generated ID
-//        messageDB.childByAutoId().setValue(messsageDictionary) { (error, reference) in
-//
-//            if error != nil{
-//                print(error!)}
-//            else {
-//                print("Message saved successfully")}}
-        
-        
-        print(startDatePicker.date)
-        print(endDatePicker.date)
-
         
     }
     
-
-}
     
-  
 
-
-
-
+    
+    
 

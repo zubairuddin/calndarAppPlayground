@@ -28,18 +28,23 @@ class EventsViewController: UIViewController {
     let dateFormatterSimple = DateFormatter()
     var startDate = Date()
     var endDate = Date()
+    var startDateEnd = Date()
     var isAllDay: Bool = false
     var daysOfTheWeek = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     var selectedDaysOfTheWeek = Array<Any>()
     var numberOfItems = 1
-    var datesBetweenChosenDates = Array<Date>()
-    var daysOfWeekBetweenChosenDates = Array<Date>()
+    var datesBetweenChosenDatesStart = Array<Date>()
+    var datesBetweenChosenDatesEnd = Array<Date>()
+    var daysOfWeekBetweenChosenDatesEnd = Array<Date>()
     var dateComponents = DateComponents()
     var datesOfTheEvents = Array<Date>()
-//    var startHour = 18
-//    var startMinute = 0
-//    var endHour = 21
-//    var endMinute = 0
+    var startDatesOfTheEvents = Array<Date>()
+    var datesToCheckSet = Set<Date>()
+    var datesToCheckArray = Array<Date>()
+    var startEndDate = Date()
+    
+    var finalAvailabilityArray = Array<Int>()
+    
 
 
     
@@ -52,9 +57,9 @@ class EventsViewController: UIViewController {
         //        select the time period for which we wish to search
         dateFormatterSimple.dateFormat = "yyyy-MM-dd"
         dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
-        startDate = dateFormatter.date(from: "2018-11-01 00:00:00 +0000")!
-        
-            endDate = dateFormatter.date(from: "2018-12-31 00:00:00 +0000")!
+        startDate = dateFormatter.date(from: "2018-11-01 06:00:00 +0000")!
+        startEndDate = dateFormatter.date(from: "2018-11-01 10:00:00 +0000")!
+            endDate = dateFormatter.date(from: "2018-12-31 10:00:00 +0000")!
         
         try! realm.write {
             realm.deleteAll()
@@ -73,12 +78,19 @@ class EventsViewController: UIViewController {
 
     @IBAction func runTheEventSearchCode(_ sender: UIButton) {
       
+        
+    
+        
         checkCalendarStatus()
         requestAccessToCalendar()
         getCalendarData()
         getArrayOfChosenDates()
-        compareTheTwoArrays()
+        getArrayOfChosenDatesEnd()
+        compareTheEventTimmings()
         
+        
+
+
 
 
         
@@ -118,18 +130,19 @@ class EventsViewController: UIViewController {
     
     func getCalendarData()  {
         
-        
+        datesOfTheEvents.removeAll()
+        startDatesOfTheEvents.removeAll()
         calendarArray = eventStore.events(matching: eventStore.predicateForEvents(withStart: startDate as Date, end: endDate as Date, calendars: calendars))
         
-        print(calendarArray)
+//        print(calendarArray)
         
       numberOfItems = calendarArray.count
         
-        print(numberOfItems)
+//        print(numberOfItems)
         
-//        try! realm.write {
-//            realm.deleteAll()
-//        }
+        try! realm.write {
+            realm.deleteAll()
+        }
         
 
         
@@ -154,7 +167,7 @@ class EventsViewController: UIViewController {
             
             calendarEventArray.append(newItemInArray)
             
-            print(Event.init().title!)
+//            print(Event.init().title!)
             
             
 //            writes the data into Realm
@@ -177,12 +190,13 @@ class EventsViewController: UIViewController {
                 
 //                creates an array of the dates on which the user has events
                 datesOfTheEvents.append(event.occurrenceDate)
+                startDatesOfTheEvents.append(event.startDate)
                 
-                print(datesOfTheEvents)
+//                print(startDatesOfTheEvents)
                 
                 
 //                prints the titles of the saved events
-                print(newItemInArray.title!)
+//                print(newItemInArray.title!)
             }
             catch {
                 print("Error saving new items, \(error)")
@@ -211,6 +225,7 @@ class EventsViewController: UIViewController {
 //    Adds the dates between our start date and end date to the Array datesBetweenChosenDates
     func getArrayOfChosenDates() {
         
+        datesBetweenChosenDatesStart.removeAll()
         var currentDate = startDate
         let calendar = NSCalendar.current
         
@@ -223,15 +238,14 @@ class EventsViewController: UIViewController {
     
             let dayOfWeek = getDayOfWeek(myDateString)
        
-            if dayOfWeek == 0 || dayOfWeek == 2 {
+            if dayOfWeek == 1 || dayOfWeek == 2 {
                 
             let myDateNonString = dateFormatter.date(from: myDateString)
                 
-                datesBetweenChosenDates.append(myDateNonString!)
+                datesBetweenChosenDatesStart.append(myDateNonString!)
                 
-                currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate as Date)!
-                
-                print(myDateString)
+
+//                print(myDateString)
             }
             else {
                 
@@ -241,38 +255,98 @@ class EventsViewController: UIViewController {
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate as Date)!
         }
     }
+    
+    
+    //    Adds the dates between our start date and end date to the Array datesBetweenChosenDates
+    func getArrayOfChosenDatesEnd() {
+        
+        datesBetweenChosenDatesEnd.removeAll()
+        var currentDate = startEndDate
+        let calendar = NSCalendar.current
+        
+        //        filters through the dates until the currentDate and endDate are equal
+        while currentDate <= endDate {
+            
+            let myDateString = dateFormatter.string(from: currentDate)
+            
+            let dayOfWeek = getDayOfWeek(myDateString)
+            
+            if dayOfWeek == 1 || dayOfWeek == 2 {
+                
+                let myDateNonString = dateFormatter.date(from: myDateString)
+                
+                datesBetweenChosenDatesEnd.append(myDateNonString!)
 
-//    comapres the two arrays of dates of events
-    func compareTheTwoArrays(){
-        
-//        returns the dates that are in both arrays i.e. the dates we need to check the timmings for
-        let datesOfTheEventsSet = Set(datesOfTheEvents)
-        let datesBetweenChosenDatesSet = Set(datesBetweenChosenDates)
-        let datesToCheck = datesBetweenChosenDatesSet.intersection(datesOfTheEvents)
+            }
+            else {
 
-        print(datesToCheck)
-        
-
-//        return the dates we are available, i.e. free all day and need no further checking
-        
-        let datesWeAreFree = datesBetweenChosenDatesSet.subtracting(datesOfTheEvents)
-        
-        print(datesWeAreFree)
+                
+            }
+            
+            //            Adds one day to the current date
+            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate as Date)!
         }
+    }
+    
+
+
     
     
 //    compares the timmings of the events we have to those specified by the user and returns those dates we are free
     func compareTheEventTimmings (){
-        
-//      Get the event IDs for those events on the dates within datesToCheck
-        
-        for occurance
-        
-        
-    }
+
+        let numeberOfDatesToCheck = datesBetweenChosenDatesStart.count - 1
+        let numberOfEventDatesToCheck = startDatesOfTheEvents.count - 1
+        var n = 0
+        var y = 0
+        finalAvailabilityArray.removeAll()
+
+
+//      Get the event IDs for those events on the dates within datesToCheckArray
+
+//        while n <= numeberOfDatesToCheck - 1 {
+
+//        let theCurrentDate = datesToCheckArray[n]
+//        let predicate = NSPredicate(format: "occuranceDate == %@",theCurrentDate as CVarArg)
 
         
+        while y <= numeberOfDatesToCheck {
         
-    }
-    
+        while n <= numberOfEventDatesToCheck {
+        
+        if
+              (datesBetweenChosenDatesStart[y] ... datesBetweenChosenDatesEnd[y]).contains(startDatesOfTheEvents[n]) == true {
+            
+            finalAvailabilityArray.append(0)
+            
+        }
+        else {
+            
+            if n == numberOfEventDatesToCheck{
+                finalAvailabilityArray.append(1)}
 
+            
+        }
+//         print(datesBetweenChosenDatesStart[y])
+//            print(datesBetweenChosenDatesEnd[y])
+//            print(startDatesOfTheEvents[n])
+         n = n + 1
+
+            }
+
+            n = 0
+            y = y + 1
+        }
+        print(finalAvailabilityArray)
+        
+
+
+//        let currentEvent = realm.objects(CalendarEventRealm1.self).filter(predicate)
+
+//        print(currentEvent)
+
+//        n = n + 1
+
+        }
+
+    }

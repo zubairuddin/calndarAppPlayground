@@ -11,15 +11,15 @@ import Firebase
 
 
 
+
 class RegisterViewController: UIViewController {
 
     @IBOutlet var phoneNumberRegister: UITextField!
     
     @IBOutlet var registerEmail: UITextField!
     
-    @IBOutlet var registerPassword: UITextField!
+    @IBOutlet var registerName: UITextField!
     
-
     @IBOutlet var verificationCode: UITextField!
     
     var verificationID: String = ""
@@ -50,11 +50,13 @@ class RegisterViewController: UIViewController {
     @IBAction func phoneNumberRegisterPressed(_ sender: UIButton) {
     PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumberRegister.text!, uiDelegate: nil) { (verificationID, error) in
             if error != nil {
-                print("didnt work")
+                print(error!)
+                print("Didn't Work")
                 return
             }
             
             UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
+        print(verificationID!)
         
         }
     }
@@ -63,15 +65,27 @@ class RegisterViewController: UIViewController {
         
         let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
         
+        print(verificationID!)
+        
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: verificationID!,
-            verificationCode: self.verificationCode.text!)
+            verificationCode: verificationCode.text!)
         
         Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if error != nil {
-                // ...
+                print(error!)
                 return
+
+           
             }
+            let uid = Auth.auth().currentUser?.uid
+
+            let db = Database.database().reference().child("Users")
+            //        LO: this says what we are going to be saving down to the DB
+            
+            let userDictionary = ["PhoneNumer": Auth.auth().currentUser?.phoneNumber,"Name": self.registerName.text, "email": self.registerEmail.text]
+            
+            db.child(uid!).setValue(userDictionary)
             
             self.performSegue(withIdentifier: "registerComplete", sender: self)
             

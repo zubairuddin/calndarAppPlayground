@@ -10,11 +10,11 @@ import UIKit
 import ContactsUI
 
 
-class ContactsViewController: UITableViewController {
+class ContactsViewController: UITableViewController, UISearchBarDelegate {
     
     
     @IBOutlet var searchContacts: UISearchBar!
-    
+
     
     var contactsList = [contactList]()
 //    property for holding the filtered data
@@ -26,18 +26,8 @@ class ContactsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Setup the Search Controller
-//        allows our view controller to be informed when we upate the search text
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Contacts"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-       
-        
+       searchContacts.delegate = self
         fetchContacts()
-
-        // Do any additional setup after loading the view.
     }
     
 //    this function is used to fethc the contacts
@@ -66,6 +56,7 @@ class ContactsViewController: UITableViewController {
                         self.contactsList.append(contactList(name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue ?? "", selectedContact: false))
                         
                         print(self.contactsList)
+                    
                         
                         self.tableView.reloadData()
                         
@@ -84,11 +75,9 @@ class ContactsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if isFiltering() {
-        return filteredData.count
-        }else {
+
             return contactsList.count
-        }
+
         
     }
     
@@ -101,16 +90,11 @@ class ContactsViewController: UITableViewController {
 
         let item: contactList
     
-        if isFiltering(){
-            item = filteredData[indexPath.row]
-            print(item)
-            print(filteredData)
-        }
-        else{
+
              item = contactsList[indexPath.row]
             print(item)
-            print(filteredData)
-        }
+            print(contactsList)
+        
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.phoneNumber
         
@@ -120,69 +104,56 @@ class ContactsViewController: UITableViewController {
         } else{
             cell.accessoryType = .none
         }
-        
-        print(isFiltering())
+    
         return cell
-        
+        print(item.selectedContact)
 
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
         let row = contactsList[indexPath.row]
-        
         //        check to see if there already exist a check mark, if there is remove it, if there isnt add it
-        
         //        sets the done property on the item in the array to the opposite of what it is now
-        
         contactsList[indexPath.row].selectedContact = !contactsList[indexPath.row].selectedContact
-        
-        
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     
     
-//    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-//        if searchBar.text == nil || searchBar.text == "" {
-//            isSearching = false
-//            view.endEditing(true)
-//            tableView.reloadData()}
-//            else{
-//                isSearching = true
+    // This method updates filteredData based on the text in the Search Box
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        // When there is no text, filteredData is the same as the original data
+//        // When user has entered text into the search box
+//        // Use the filter method to iterate over all items in the data array
+//        // For each item, return true if the item should be included and false if the
+//        // item should NOT be included
+//        if searchText.isEmpty {
+//            filteredData = contactsList
+//        }else{
+//            filteredData = contactsList.filter({( name : contactList) -> Bool in
+//                return name.name.lowercased().contains(searchText.lowercased())
+//            },
 //
-//             filterContentForSearchText(searchController.searchBar.text!)
-//            }
 //
+//        }
+//
+//
+//
+//        tableView.reloadData()
 //        }
     
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "All"){
-        filteredData = contactsList.filter({(list : contactList) -> Bool in return list.name.lowercased().contains(searchText.lowercased())})
-        print(filteredData)
-        tableView.reloadData()
-    }
-    
-    func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
-        
-    }
-    
-    }
 
-//tells the view controller that the seacrch is being updated
-extension ContactsViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
+    
 }
+
+    
+
+    
+
+
 
 
 
