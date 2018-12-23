@@ -8,8 +8,7 @@
 
 import UIKit
 import Firebase
-
-
+import FirebaseFirestore
 
 
 class RegisterViewController: UIViewController {
@@ -23,10 +22,17 @@ class RegisterViewController: UIViewController {
     @IBOutlet var verificationCode: UITextField!
     
     var verificationID: String = ""
+    var ref: DocumentReference? = nil
+    var settings = dbStore.settings
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        settings.areTimestampsInSnapshotsEnabled = true
+        dbStore.settings = settings
+        
         // Do any additional setup after loading the view.
     }
 
@@ -80,12 +86,37 @@ class RegisterViewController: UIViewController {
             }
             let uid = Auth.auth().currentUser?.uid
 
-            let db = Database.database().reference().child("Users")
+            
+            let dbStore = Firestore.firestore()
+            
+
+        
+
+            
             //        LO: this says what we are going to be saving down to the DB
             
-            let userDictionary = ["PhoneNumer": Auth.auth().currentUser?.phoneNumber,"Name": self.registerName.text, "email": self.registerEmail.text]
+            let userDictionary = ["phoneNumer": Auth.auth().currentUser?.phoneNumber,"name": self.registerName.text, "email": self.registerEmail.text, "uid": uid]
             
-            db.child(uid!).setValue(userDictionary)
+            dbStore.collection("users").whereField("uid", isEqualTo: uid!).getDocuments { (querySnapshot, error) in
+                if error != nil {
+                    print("Error getting documents: \(error!)")
+                }
+                else {
+                    for document in querySnapshot!.documents {
+                    
+                    myAddedUserID = document.get("uid") as! String
+                        
+                        if myAddedUserID == uid {
+                            
+                        }
+                        else{
+                           self.ref = dbStore.collection("users").addDocument(data: userDictionary as [String : Any])
+                            
+                        }
+
+                    }
+                }
+            }
             
             self.performSegue(withIdentifier: "registerComplete", sender: self)
             
