@@ -11,26 +11,41 @@ import Firebase
 import FirebaseFirestore
 
 
-
-var phoneNumberArray = ["+447845581394","+447854937880"]
-var userIDArray = Array<String>()
-var ref: DocumentReference? = nil
-var user = Auth.auth().currentUser?.uid
-var dbStore = Firestore.firestore()
 var settings = dbStore.settings
-var myAddedUserID: String = ""
-var eventCreationID: String = ""
-let dateFormatter = DateFormatter()
-
+var dbStore = Firestore.firestore()
 
 
 class  ViewController: UIViewController {
+    
+    var userIDArray = Array<String>()
+    var ref: DocumentReference? = nil
+    var user = Auth.auth().currentUser?.uid
+    var myAddedUserID: String = ""
+    var eventCreationID: String = ""
+    let dateFormatter = DateFormatter()
+    var textPassedOver : String?
+    var contactsList = [contactList]()
+    var selectedContacts: [String] = [""]
+    
+    
+    @IBAction func toContactsForEvent(_ sender: UIButton) {
+        
+       performSegue(withIdentifier: "toContactsPage", sender: self)
+        
+       selectedContacts.removeAll()
+        
+    }
+        
+    
+    
     @IBAction func contactsCodeRun(_ sender: UIButton) {
 
         settings.areTimestampsInSnapshotsEnabled = true
         dbStore.settings = settings
     
        addEventToEventStore()
+        
+        
         
     }
     
@@ -41,6 +56,7 @@ class  ViewController: UIViewController {
         
         settings.areTimestampsInSnapshotsEnabled = true
         dbStore.settings = settings
+
         
 //        listener to detect when any events are added with mu user name in them
         dbStore.collection("userEventStore").whereField("uid", isEqualTo: user!).addSnapshotListener { querySnapshot, error in
@@ -66,77 +82,26 @@ class  ViewController: UIViewController {
     
     func addEventToEventStore(){
       
-        eventQuery {
-            
-            
-            
-            for attendees in phoneNumberArray {
+        getSelectedContactsPhoneNumbers {
+            self.eventQuery {
+            for attendees in self.selectedContacts {
             
             self.getUserIDs(phoneNumber: attendees) {
                     
-                self.userEventLink(userID: myAddedUserID, eventID: eventCreationID, completion: {
+                self.userEventLink(userID: self.myAddedUserID, eventID: self.eventCreationID, completion: {
                     print("Complete")
                 })
                     
                     
                 }
                 
-            }}}
-    
-        
-    
-    
-//    func addEventToEventStore(completion: @escaping (_ success: Bool) -> Void){
-//
-//    let numberOfUsers = phoneNumberArray.count
-//    var n = 0
-//
-//        while n <= numberOfUsers - 1 {
-//
-//            getUserIDs(phoneNumber: phoneNumberArray[n], completion: { success  -> Void in
-//
-//            if success == true {
-//
-//              n = n + 1
-//
-//            }else{
-//
-//              return
-//            }
-//
-//            })
-//
-//
-//
-//        }
-//        completion(true)
-//
-//    }
-    
-
-    
-    
+            }}}}
     
     func addingToEventStoreForAllUser(){
         
         
         print(userIDArray)
-                
-//                        let numberOfUsers = phoneNumberArray.count
-//                        var n = 0
-//
-//                        //        will need to add inputs to the function to allow the users inputs to feed in
-//                                eventQuery()
-//                                n = 0
-//                                while  n <= numberOfUsers - 1{
-//
-//                                    if n == 10 {
-//                                        return
-//                                    }else{
-//
-//                                    userEventLink(userID: userIDArray[n])
-//                                        n = n + 1}
-//                                }
+
     }
     
 
@@ -153,10 +118,10 @@ class  ViewController: UIViewController {
                 for document in querySnapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     
-                    myAddedUserID = document.get("uid") as! String
+                    self.myAddedUserID = document.get("uid") as! String
 //                    print(myAddedUserID)
-                    userIDArray.append(myAddedUserID)
-                    print(userIDArray)
+                    self.userIDArray.append(self.myAddedUserID)
+                    print(self.userIDArray)
                     completion()
                 }
     }
@@ -182,7 +147,7 @@ class  ViewController: UIViewController {
                 
             }
             
-            eventCreationID  = ref!.documentID
+            self.eventCreationID  = self.ref!.documentID
 //            print(eventID)
             completion()
             
@@ -198,7 +163,19 @@ class  ViewController: UIViewController {
         
         
     }
-
-}
+    
+    
+    func getSelectedContactsPhoneNumbers( completion: @escaping () -> Void){
+        selectedContacts.removeAll()
+        for contact in contactsList{
+        if contact.selectedContact == true {
+            
+            selectedContacts.append(contact.phoneNumber.replacingOccurrences(of: " ", with: ""))
+            
+            }}
+        completion()
+        print(selectedContacts)
+    }
     
 
+}

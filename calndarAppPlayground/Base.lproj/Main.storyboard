@@ -135,9 +135,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <segue destination="liX-xd-ks4" kind="show" id="WTE-rd-vX3"/>
+                                    <segue destination="liX-xd-ks4" kind="show" identifier="toContactsPage" id="WTE-rd-vX3"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3k6-oV-Hr5">
+                                <rect key="frame" x="94" y="226" width="186" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Select Contacts For Events"/>
+                                <connections>
+                                    <action selector="toContactsForEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Snq-7x-KCP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -176,6 +184,8 @@
                             <outlet property="delegate" destination="liX-xd-ks4" id="ciu-ot-7B0"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchContacts" destination="IHo-B0-TzM" id="sOo-B1-ajt"/>
                     </connections>
@@ -280,6 +290,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Xh8-gl-iLH"/>
+        <segue reference="1GY-T0-SXX"/>
     </inferredMetricsTieBreakers>
 </document>

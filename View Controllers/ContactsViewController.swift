@@ -10,27 +10,35 @@ import UIKit
 import ContactsUI
 
 
-class ContactsViewController: UITableViewController, UISearchBarDelegate {
+var contactsList = [contactList]()
+
+class ContactsViewController: UITableViewController, UISearchBarDelegate, UINavigationControllerDelegate {
     
     
     @IBOutlet var searchContacts: UISearchBar!
 
+
     
-    var contactsList = [contactList]()
 //    property for holding the filtered data
     var filteredData = [contactList]()
+    var data = "test"
     
 //    this tells the controller we want to  use the same view to display the results as we use to search
     let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
        searchContacts.delegate = self
         fetchContacts()
+        navigationController?.delegate = self
+
+        
     }
     
-//    this function is used to fethc the contacts
+    
+    
+//    this function is used to fetch the contacts
     func fetchContacts(){
     print("Attempting to fetch the contacts")
         
@@ -51,16 +59,15 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
                 do{
             
                     try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointerIfYouWantToStopPointerEnumerating) in
-                        print(contact.givenName)
+//                        print(contact.givenName)
                     
-                        self.contactsList.append(contactList(name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue ?? "", selectedContact: false))
-                        
-                        print(self.contactsList)
+                        contactsList.append(contactList(name: contact.givenName + " " + contact.familyName, phoneNumber: contact.phoneNumbers.first?.value.stringValue ?? "", selectedContact: false))
                     
                         
-                        self.tableView.reloadData()
+//                        print(self.contactsList)
+                    
                         
-                    })
+                  self.tableView.reloadData()  })
                     
                 } catch let error{
                     print("Failed to enumerate contacts:",error)
@@ -68,17 +75,15 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
             }
             else{
                 print("Access Denied")
+                
+                
             }
         }
     }
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-
             return contactsList.count
-
-        
     }
     
     
@@ -92,8 +97,8 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
     
 
              item = contactsList[indexPath.row]
-            print(item)
-            print(contactsList)
+//            print(item)
+//            print(contactsList)
         
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = item.phoneNumber
@@ -106,18 +111,18 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
         }
     
         return cell
-        print(item.selectedContact)
+//        print(item.selectedContact)
 
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
-        let row = contactsList[indexPath.row]
         //        check to see if there already exist a check mark, if there is remove it, if there isnt add it
         //        sets the done property on the item in the array to the opposite of what it is now
         contactsList[indexPath.row].selectedContact = !contactsList[indexPath.row].selectedContact
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
+        
+  
     }
 
     
@@ -144,15 +149,11 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
 //        tableView.reloadData()
 //        }
     
-    
-
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        (viewController as? ViewController)?.contactsList = contactsList // Here you pass the to your original view controller
+    }
     
 }
-
-    
-
-    
-
 
 
 

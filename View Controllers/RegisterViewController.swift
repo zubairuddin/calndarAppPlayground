@@ -24,7 +24,7 @@ class RegisterViewController: UIViewController {
     var verificationID: String = ""
     var ref: DocumentReference? = nil
     var settings = dbStore.settings
-
+    var myAddedUserID = ""
     
     
     override func viewDidLoad() {
@@ -104,9 +104,9 @@ class RegisterViewController: UIViewController {
                 else {
                     for document in querySnapshot!.documents {
                     
-                    myAddedUserID = document.get("uid") as! String
+                        self.myAddedUserID = document.get("uid") as! String
                         
-                        if myAddedUserID == uid {
+                        if self.myAddedUserID == uid {
                             
                         }
                         else{
