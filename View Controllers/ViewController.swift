@@ -28,6 +28,9 @@ class  ViewController: UIViewController {
     var selectedContacts: [String] = [""]
     
     
+    
+    
+    
     @IBAction func toContactsForEvent(_ sender: UIButton) {
         
        performSegue(withIdentifier: "toContactsPage", sender: self)

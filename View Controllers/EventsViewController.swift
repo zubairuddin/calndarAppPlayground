@@ -30,8 +30,8 @@ class EventsViewController: UIViewController {
     var endDate = Date()
     var startDateEnd = Date()
     var isAllDay: Bool = false
-    var daysOfTheWeek = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    var selectedDaysOfTheWeek = Array<Any>()
+//    when the days of the week we are looking for are input inot the array, they should be input with their corrcet integer day, all other unrequired days should be input with a random integer e.g. 10 below
+    var daysOfTheWeek = [10,1,2,10,10,10,10]
     var numberOfItems = 1
     var datesBetweenChosenDatesStart = Array<Date>()
     var datesBetweenChosenDatesEnd = Array<Date>()
@@ -42,12 +42,14 @@ class EventsViewController: UIViewController {
     var datesToCheckSet = Set<Date>()
     var datesToCheckArray = Array<Date>()
     var startEndDate = Date()
-    
     var finalAvailabilityArray = Array<Int>()
+    var startDateInput = "2018-11-01"
+    var endDateInput = "2018-12-31"
+    var startTimeInput = "06:00"
+    var endTimeInput = "16:00"
     
 
 
-    
     
     
     override func viewDidLoad() {
@@ -55,11 +57,16 @@ class EventsViewController: UIViewController {
 
 
         //        select the time period for which we wish to search
+        
         dateFormatterSimple.dateFormat = "yyyy-MM-dd"
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss z"
-        startDate = dateFormatter.date(from: "2018-11-01 06:00:00 +0000")!
-        startEndDate = dateFormatter.date(from: "2018-11-01 10:00:00 +0000")!
-            endDate = dateFormatter.date(from: "2018-12-31 10:00:00 +0000")!
+//        capital HH denotes the 24hr clock
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        startDate = dateFormatter.date(from: startDateInput + " " + startTimeInput)!
+        
+        //        these two elements must contain the same time HH:mm:ss
+        startEndDate = dateFormatter.date(from: startDateInput + " " + endTimeInput)!
+            endDate = dateFormatter.date(from: endDateInput + " " + endTimeInput)!
+        
         
         try! realm.write {
             realm.deleteAll()
@@ -67,11 +74,7 @@ class EventsViewController: UIViewController {
         
         print(endDate)
         print(startDate)
-        
-        //        select the days we want to seach for
-        
-        selectedDaysOfTheWeek = [1,3]
-        
+    
     }
     
 
@@ -238,7 +241,7 @@ class EventsViewController: UIViewController {
     
             let dayOfWeek = getDayOfWeek(myDateString)
        
-            if dayOfWeek == 1 || dayOfWeek == 2 {
+            if daysOfTheWeek.contains(dayOfWeek!) {
                 
             let myDateNonString = dateFormatter.date(from: myDateString)
                 
@@ -266,12 +269,14 @@ class EventsViewController: UIViewController {
         
         //        filters through the dates until the currentDate and endDate are equal
         while currentDate <= endDate {
+        
             
             let myDateString = dateFormatter.string(from: currentDate)
             
             let dayOfWeek = getDayOfWeek(myDateString)
             
-            if dayOfWeek == 1 || dayOfWeek == 2 {
+            
+            if daysOfTheWeek.contains(dayOfWeek!) {
                 
                 let myDateNonString = dateFormatter.date(from: myDateString)
                 
@@ -300,15 +305,6 @@ class EventsViewController: UIViewController {
         var n = 0
         var y = 0
         finalAvailabilityArray.removeAll()
-
-
-//      Get the event IDs for those events on the dates within datesToCheckArray
-
-//        while n <= numeberOfDatesToCheck - 1 {
-
-//        let theCurrentDate = datesToCheckArray[n]
-//        let predicate = NSPredicate(format: "occuranceDate == %@",theCurrentDate as CVarArg)
-
         
         while y <= numeberOfDatesToCheck {
         
@@ -324,12 +320,7 @@ class EventsViewController: UIViewController {
             
             if n == numberOfEventDatesToCheck{
                 finalAvailabilityArray.append(1)}
-
-            
         }
-//         print(datesBetweenChosenDatesStart[y])
-//            print(datesBetweenChosenDatesEnd[y])
-//            print(startDatesOfTheEvents[n])
          n = n + 1
 
             }
@@ -338,15 +329,7 @@ class EventsViewController: UIViewController {
             y = y + 1
         }
         print(finalAvailabilityArray)
-        
-
-
-//        let currentEvent = realm.objects(CalendarEventRealm1.self).filter(predicate)
-
-//        print(currentEvent)
-
-//        n = n + 1
-
         }
+    
 
     }
