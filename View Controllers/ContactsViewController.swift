@@ -149,8 +149,13 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate, UINavi
 //        tableView.reloadData()
 //        }
     
+//    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+//        (viewController as? ViewController)?.contactsList = contactsList // Here you pass the to your original view controller
+//    }
+    
+    
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        (viewController as? ViewController)?.contactsList = contactsList // Here you pass the to your original view controller
+        (viewController as? CreateEventViewController)?.contactsList = contactsList // Here you pass the to your original view controller
     }
     
 }

@@ -15,6 +15,7 @@
 		24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */; };
 		24957FC421AAA5A0008E0AB7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */; };
 		24957FC621AAA5B1008E0AB7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */; };
+		24AB6F8921D0D0D20024A19C /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AB6F8821D0D0D20024A19C /* CreateEventViewController.swift */; };
 		24BE31AE21BF148400981307 /* CalendarEventModelRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BE31AD21BF148400981307 /* CalendarEventModelRealm.swift */; };
 		24BE31B021BF27F000981307 /* chosenDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BE31AF21BF27F000981307 /* chosenDates.swift */; };
 		24D07D36219E2B3C004C102E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D07D35219E2B3C004C102E /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 		24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		24AB6F8821D0D0D20024A19C /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		24BE31AD21BF148400981307 /* CalendarEventModelRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventModelRealm.swift; sourceTree = "<group>"; };
 		24BE31AF21BF27F000981307 /* chosenDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chosenDates.swift; sourceTree = "<group>"; };
 		24D07D32219E2B3C004C102E /* calndarAppPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = calndarAppPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +82,7 @@
 				24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */,
 				24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */,
 				2415AF9421AE840200437EF8 /* ContactsViewController.swift */,
+				24AB6F8821D0D0D20024A19C /* CreateEventViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */,
 				24061DB021BD9D8700602BE1 /* CalendarEventModel.swift in Sources */,
 				2415AF9521AE840200437EF8 /* ContactsViewController.swift in Sources */,
+				24AB6F8921D0D0D20024A19C /* CreateEventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,6 +53,8 @@ class  ViewController: UIViewController {
     var startDatesOfTheEvents = Array<Date>()
     var startEndDate = Date()
     var finalAvailabilityArray = Array<Int>()
+    var eventLocation = ""
+    var eventDescription = ""
     
 //    the variables below are the required variables for the event search
     var startDateInput = "2018-11-01"
@@ -61,8 +63,6 @@ class  ViewController: UIViewController {
     var endTimeInput = "16:00"
     //    when the days of the week we are looking for are input inot the array, they should be input with their corrcet integer day, all other unrequired days should be input with a random integer e.g. 10 below
     var daysOfTheWeek = [10,1,2,10,10,10,10]
-    
-    
     
     var newEventID = ""
     
@@ -82,7 +82,13 @@ class  ViewController: UIViewController {
         settings.areTimestampsInSnapshotsEnabled = true
         dbStore.settings = settings
     
-       addEventToEventStore()
+//       addEventToEventStore()
+        
+        eventQuery(completion: {
+            print("Event Added")
+        })
+    
+        
         
         
         
@@ -165,7 +171,10 @@ class  ViewController: UIViewController {
     }
     
     
-    func addEventToEventStore(){
+    
+    //    MARK: code to add an event to the Firebase database
+    
+    func addEventToEventStore(completion: @escaping () -> Void){
       
         getSelectedContactsPhoneNumbers {
             self.eventQuery {
@@ -176,7 +185,7 @@ class  ViewController: UIViewController {
                 self.userEventLink(userID: self.myAddedUserID, eventID: self.eventCreationID, completion: {
                     print("Complete")
                 })
-                    
+                    completion()
                     
                 }}}}}
     
@@ -217,7 +226,7 @@ class  ViewController: UIViewController {
     
     func eventQuery( completion: @escaping () -> Void){
         
-        let eventSearchArray: [String:Any] = ["startDateInput": startDateInput,"endDateInput": endDateInput,"startTimeInput": startTimeInput,"endTimeInput": endTimeInput,"daysOfTheWeek": daysOfTheWeek,"isAllDay": "0","users": "userList", "eventOwner": user!]
+        let eventSearchArray: [String:Any] = ["startDateInput": startDateInput,"endDateInput": endDateInput,"startTimeInput": startTimeInput,"endTimeInput": endTimeInput,"daysOfTheWeek": daysOfTheWeek,"isAllDay": "0","users": "userList", "eventOwner": user!, "location": eventLocation, "eventDescription": eventDescription]
     
         
         ref = dbStore.collection("eventRequests").addDocument(data: eventSearchArray as [String : Any]){
@@ -288,6 +297,9 @@ class  ViewController: UIViewController {
                 }
             })
     }
+    
+    
+    
     
     
     
@@ -524,6 +536,11 @@ class  ViewController: UIViewController {
         }
         print(finalAvailabilityArray)
     }
+    
+    
+    
+    
+    //    MARK: code to pull down the events and display them
     
     
 
