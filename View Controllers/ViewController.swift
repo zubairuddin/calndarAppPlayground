@@ -67,6 +67,10 @@ class  ViewController: UIViewController {
     var newEventID = ""
     
     
+//    variables for the list of events
+    var userEventList = [eventSearch]()
+    
+    
     @IBAction func toContactsForEvent(_ sender: UIButton) {
         
        performSegue(withIdentifier: "toContactsPage", sender: self)
@@ -76,21 +80,13 @@ class  ViewController: UIViewController {
     }
         
     
-    
+//    Run The Code Button
     @IBAction func contactsCodeRun(_ sender: UIButton) {
 
         settings.areTimestampsInSnapshotsEnabled = true
         dbStore.settings = settings
-    
-//       addEventToEventStore()
         
-        eventQuery(completion: {
-            print("Event Added")
-        })
-    
-        
-        
-        
+        getUsersCreatedEvents()
         
     }
     
@@ -358,7 +354,6 @@ class  ViewController: UIViewController {
         for event in calendarArray{
             
             //            appends new items into the array calendarEventsArray
-            
             let newItemInArray = Event()
             newItemInArray.alarms = event.alarms
             newItemInArray.title = event.title
@@ -541,6 +536,29 @@ class  ViewController: UIViewController {
     
     
     //    MARK: code to pull down the events and display them
+    
+    func getUsersCreatedEvents(){
+        
+        dbStore.collection("eventRequests").whereField("eventOwner", isEqualTo: user!).getDocuments { (querySnapshot, error) in
+            if error != nil {
+                print("Error getting documents: \(error!)")
+            }
+            else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    
+                    
+                    let nextUserEventToAdd = eventSearch()
+                    
+                    nextUserEventToAdd.eventDescription = document.get("eventDescription") as! String
+                    nextUserEventToAdd.eventID = document.documentID
+                    
+                    self.userEventList.append(nextUserEventToAdd)
+                    
+                }
+            }}}
+    
+    
     
     
 

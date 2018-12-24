@@ -8,12 +8,10 @@
 
 import Foundation
 
-struct eventSearch {
+class eventSearch {
     
-    var startSearchDate: Date
-    var endSearchDate: Date
-    var daysOfTheWeek = Array<Int>()
-    var isAllDay: Bool
-    var users = Array<String>()
+    var eventID: String = ""
+    var eventDescription: String = ""
+
     
 }
