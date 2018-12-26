@@ -8,7 +8,7 @@
 
 import Foundation
 
-class eventSearch {
+struct eventSearch {
     
     var eventID: String = ""
     var eventDescription: String = ""

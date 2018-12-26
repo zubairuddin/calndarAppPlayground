@@ -51,6 +51,8 @@ class CreateEventViewController: UIViewController {
         
         
         
+        
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CreateEventViewController.viewTapped(gestureRecognizer:)))
         
 
@@ -97,7 +99,10 @@ class CreateEventViewController: UIViewController {
             
         }
     }
+        
     
+    
+//    Sends the input data back to the main page to create the event
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.identifier == "createEventSelected"
@@ -116,5 +121,6 @@ class CreateEventViewController: UIViewController {
             
         }
     }
+    
     
 }

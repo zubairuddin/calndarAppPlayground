@@ -14,10 +14,10 @@ import RealmSwift
 
 var settings = dbStore.settings
 var dbStore = Firestore.firestore()
+var userEventList = [eventSearch]()
 
+class  ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-class  ViewController: UIViewController {
-    
     //    required to initiate realm
     let realm = try! Realm()
     var realmResults: Results<CalendarEventRealm1>!
@@ -68,17 +68,10 @@ class  ViewController: UIViewController {
     
     
 //    variables for the list of events
-    var userEventList = [eventSearch]()
+
     
-    
-    @IBAction func toContactsForEvent(_ sender: UIButton) {
         
-       performSegue(withIdentifier: "toContactsPage", sender: self)
-        
-       selectedContacts.removeAll()
-        
-    }
-        
+    @IBOutlet var userCreatedEvents: UITableView!
     
 //    Run The Code Button
     @IBAction func contactsCodeRun(_ sender: UIButton) {
@@ -88,22 +81,26 @@ class  ViewController: UIViewController {
         
         getUsersCreatedEvents()
         
+        
     }
     
     @IBAction func getEventAvailability(_ sender: UIButton) {
         
-        checkCalendarStatus()
-        requestAccessToCalendar()
-        getCalendarData()
-        getArrayOfChosenDates()
-        getArrayOfChosenDatesEnd()
-        compareTheEventTimmings()
+ getUsersCreatedEvents()
+        userCreatedEvents.reloadData()
         
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userCreatedEvents.delegate = self
+        userCreatedEvents.dataSource = self
+        
+//        get the events created by the user to display in the tableview
+        getUsersCreatedEvents()
+    
         
         settings.areTimestampsInSnapshotsEnabled = true
         dbStore.settings = settings
@@ -247,9 +244,6 @@ class  ViewController: UIViewController {
         
         dbStore.collection("userEventStore").addDocument(data: ["eventID": eventID, "uid": userID])
         completion()
-        
-        
-        
     }
     
     
@@ -548,18 +542,43 @@ class  ViewController: UIViewController {
                     print("\(document.documentID) => \(document.data())")
                     
                     
-                    let nextUserEventToAdd = eventSearch()
+                    var nextUserEventToAdd = eventSearch()
                     
                     nextUserEventToAdd.eventDescription = document.get("eventDescription") as! String
                     nextUserEventToAdd.eventID = document.documentID
                     
-                    self.userEventList.append(nextUserEventToAdd)
-                    
+                    userEventList.append(nextUserEventToAdd)
+                    print(userEventList)
+                
                 }
+                self.userCreatedEvents.reloadData()
             }}}
     
     
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return userEventList.count
+    }
     
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userEventCell", for: indexPath)
+        
+        let item: eventSearch
+        
+        
+        item = userEventList[indexPath.row]
+        //            print(item)
+        //            print(contactsList)
+        
+        cell.textLabel?.text = item.eventDescription
+    cell.textLabel?.font = UIFont.systemFont(ofSize: 12)
+        
+        return cell
+        //        print(item.selectedContact)
+        
+    }
     
 
 }
+
