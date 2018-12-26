@@ -11,6 +11,7 @@
 		2415AF9521AE840200437EF8 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2415AF9421AE840200437EF8 /* ContactsViewController.swift */; };
 		2415AF9721AF4E2600437EF8 /* ContactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2415AF9621AF4E2600437EF8 /* ContactList.swift */; };
 		241BBCCB21CEBD7B00B67617 /* eventSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241BBCCA21CEBD7B00B67617 /* eventSearch.swift */; };
+		241D630821D3ADAB000AC4A6 /* EventResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241D630721D3ADAB000AC4A6 /* EventResultsViewController.swift */; };
 		241DF60F21A9595D00A1333D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 241DF60E21A9595D00A1333D /* GoogleService-Info.plist */; };
 		24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */; };
 		24957FC421AAA5A0008E0AB7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */; };
@@ -30,6 +31,7 @@
 		2415AF9421AE840200437EF8 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		2415AF9621AF4E2600437EF8 /* ContactList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactList.swift; sourceTree = "<group>"; };
 		241BBCCA21CEBD7B00B67617 /* eventSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eventSearch.swift; sourceTree = "<group>"; };
+		241D630721D3ADAB000AC4A6 /* EventResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResultsViewController.swift; sourceTree = "<group>"; };
 		241DF60E21A9595D00A1333D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24957FC021AAA2D2008E0AB7 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		24957FC321AAA5A0008E0AB7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				24957FC521AAA5B1008E0AB7 /* RegisterViewController.swift */,
 				2415AF9421AE840200437EF8 /* ContactsViewController.swift */,
 				24AB6F8821D0D0D20024A19C /* CreateEventViewController.swift */,
+				241D630721D3ADAB000AC4A6 /* EventResultsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				24BE31AE21BF148400981307 /* CalendarEventModelRealm.swift in Sources */,
 				2415AF9721AF4E2600437EF8 /* ContactList.swift in Sources */,
 				24957FC121AAA2D2008E0AB7 /* HomePageViewController.swift in Sources */,
+				241D630821D3ADAB000AC4A6 /* EventResultsViewController.swift in Sources */,
 				24061DB021BD9D8700602BE1 /* CalendarEventModel.swift in Sources */,
 				2415AF9521AE840200437EF8 /* ContactsViewController.swift in Sources */,
 				24AB6F8921D0D0D20024A19C /* CreateEventViewController.swift in Sources */,
