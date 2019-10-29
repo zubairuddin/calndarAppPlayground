@@ -96,10 +96,14 @@ class HomePageViewController: UIViewController {
         
 //        only check the users authentication state if they havent just logged out, the check should log in the user in automatically
         if justSignedOutBool == false{
+            
+            print("user hasn't just signed out")
           
             checkLogIn()
         }
         else{
+            
+            print("user has just signed out")
             
         }
         
@@ -127,6 +131,10 @@ class HomePageViewController: UIViewController {
         
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
+                
+                print("Auth: \(auth)")
+                print("User: \(String(describing: user))")
+                
                 self.performSegue(withIdentifier: "existingUserSegue2", sender: self)
             } else {
 //                self.performSegue(withIdentifier: "newUserSegue", sender: self)

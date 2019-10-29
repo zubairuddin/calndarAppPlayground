@@ -21,5 +21,7 @@ pod 'AMPopTip'
 pod 'Firebase/Analytics'
 pod 'Firebase/Database'
 pod 'Instructions'
+pod 'Fabric'
+pod 'Crashlytics'
 
 end

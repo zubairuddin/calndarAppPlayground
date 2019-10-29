@@ -556,7 +556,7 @@ func createDatePicker(){
                     
                     let coachViews = coachMarksController.helper.makeDefaultCoachViews(withArrow: true, arrowOrientation: coachMark.arrowOrientation)
                     
-                    let hintLabels = ["When could your event occur? Choose from the list...in the next 1 week, 1 month...","or customise a specific period for your event","And which days of the week could you event occur"]
+                    let hintLabels = ["When could your event occur? Choose from the list...in the next 1 week, 1 month...","or customise a specific period in which your event could occur","And on which days of the week could your event be"]
                     
                     let nextlabels = ["OK","OK","OK"]
                     

@@ -3163,11 +3163,12 @@ Create an Event, invite your friends and we'll do the rest.</string>
         <image name="tickBox" width="500" height="500"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="o8a-Xo-tDG"/>
         <segue reference="CSB-5Z-qqf"/>
         <segue reference="MJQ-ep-xCo"/>
         <segue reference="BtR-Yg-PJ3"/>
         <segue reference="j5g-mX-T67"/>
-        <segue reference="DIH-4d-2pI"/>
-        <segue reference="D0Y-YP-VHe"/>
+        <segue reference="oDS-dE-nIo"/>
+        <segue reference="i4q-Kc-47h"/>
     </inferredMetricsTieBreakers>
 </document>

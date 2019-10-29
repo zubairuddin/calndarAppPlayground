@@ -11,9 +11,9 @@ import UIKit
 class SettingsPage: UIViewController,UITableViewDataSource, UITableViewDelegate {
     
     
-    var settingsList = ["Select Calendars","Account Settings","App Settings","About"]
+    var settingsList = ["Select Availabilty Calendars","Select Save Calendar","Account Settings","App Settings","About"]
     
-    var settingsDetailsList = ["Select the calendars Circleit will use to determine your availability", "Update your name, email address and phone number", "Define settings for certain app features","Company information and privacy policy"]
+    var settingsDetailsList = ["Select the calendars Circleit will use to determine your availability","Select the calendar Circleit will use to save events you've been invited to", "Update your name, email address and phone number", "Define settings for certain app features","Company information and privacy policy"]
     
     var segueList = ["selectCalendarSegue","accountSettings","appSettingsSegue","aboutSegue"]
     

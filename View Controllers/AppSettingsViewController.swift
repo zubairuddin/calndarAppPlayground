@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-var justSignedOutBool = true
+var justSignedOutBool = false
 
 class AppSettingsViewController: UIViewController {
 

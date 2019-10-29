@@ -266,6 +266,7 @@
 				24D07D2F219E2B3C004C102E /* Frameworks */,
 				24D07D30219E2B3C004C102E /* Resources */,
 				15CEA75FE385B35BD8B8F3DC /* [CP] Embed Pods Frameworks */,
+				24F1CE352368E1EB0088EADC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -348,6 +349,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-calndarAppPlayground/Pods-calndarAppPlayground-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		24F1CE352368E1EB0088EADC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 		FB2C34E1DCF03D5E64365D13 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -571,6 +589,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = calndarAppPlayground/calndarAppPlayground.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3NU7T826VK;
 				INFOPLIST_FILE = calndarAppPlayground/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
@@ -578,7 +597,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.020;
+				MARKETING_VERSION = 1.021;
 				PRODUCT_BUNDLE_IDENTIFIER = "Lance-Owide.calndarAppPlayground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -600,7 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.020;
+				MARKETING_VERSION = 1.021;
 				PRODUCT_BUNDLE_IDENTIFIER = "Lance-Owide.calndarAppPlayground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

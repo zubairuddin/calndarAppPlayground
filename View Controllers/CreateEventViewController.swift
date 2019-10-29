@@ -13,6 +13,8 @@ import Firebase
 import EventKit
 import AMPopTip
 import Alamofire
+import Fabric
+import Crashlytics
 
 //Gloabl variables available to any viewController
 var settings = dbStore.settings
@@ -95,6 +97,8 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
     @IBAction func testTheCode(_ sender: UIButton) {
         
 
+        assert(false)
+        Crashlytics.sharedInstance().crash()
         
     }
     
@@ -157,6 +161,10 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         
 //        hide code test button
         testTheCodeButton.isHidden = true
+        
+        
+//        Fabric debugging mode
+//        Fabric.sharedSDK().debug = true
         
 //        view settings
 
