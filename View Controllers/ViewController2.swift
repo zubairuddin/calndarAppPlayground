@@ -20,7 +20,7 @@ var inviteesNamesLocation = [String]()
 var arrayForEventResultsPageFinal = [[Any]]()
 var nonUserInviteeNames = Array<String>()
 
-
+//Zubair: Please use a descriptive name for UIViewController class
 class ViewController2: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoachMarksControllerDataSource, CoachMarksControllerDelegate {
 
     
@@ -37,6 +37,7 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
     
     
 
+    //Zubair: Please use naming conventions I have suggested for IBOutlets
     @IBOutlet var dropDownButton: UIButton!
     
     
@@ -90,21 +91,23 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
     
     
     
-	@IBOutlet weak var gridCollectionView: UICollectionView! {
-		didSet {
+    
+    @IBOutlet weak var gridCollectionView: UICollectionView! {
+        //Zubair: I don't think didSet is required here.
+        didSet {
 
 //            not sure what this setting does
-//			gridCollectionView.bounces = true
+//            gridCollectionView.bounces = true
 
-		}
-	}
+        }
+    }
     
 //    sets the number of columns and rows that do not move with the table
     @IBOutlet weak var gridLayout: StickyGridCollectionViewLayout! {
         didSet {
             
             if selectEventToggle == 1 {
-			gridLayout.stickyRowsCount = 1
+            gridLayout.stickyRowsCount = 1
                 gridLayout.stickyColumnsCount = 1}
             
             else{
@@ -170,6 +173,7 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
         
        
 //        setup view best dates button
+        //Zubair: You must use custom classes for your buttons, the code is getting repeated very often and there is no reusability
         viewBestDatesButton.layer.borderColor = UIColor.lightGray.cgColor
         viewBestDatesButton.layer.borderWidth = 2
         viewBestDatesButton.layer.cornerRadius = 5
@@ -212,6 +216,8 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
         
       dateChosenCheck()
         getUsersNames()
+        
+        //Zubair: Again, use functions rather than writing large number of lines of code within viewDidLoad()
         chosenDateLabel.adjustsFontSizeToFitWidth = true
         
         
@@ -271,8 +277,6 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
         }
         
         print("nonUserInviteeNames: \(nonUserInviteeNames)")
-        
-        
 
     }
     
@@ -349,6 +353,7 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
 
                 print("inviteesUserIDs: \(items)")
                 
+                //Zubair: Firebase related stuff should reside within your global Firebase Manager class
                 dbStore.collection("users").whereField("uid", isEqualTo: items).getDocuments { (querySnapshot, error) in
                     if error != nil {
                         print("Error getting documents: \(error!)")
@@ -374,7 +379,6 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
     
     func dateChosenCheck(){
         
-
             if datesToChooseFrom[0] as? String ?? "" == ""{
             
             
@@ -392,6 +396,7 @@ class ViewController2: UIViewController, UICollectionViewDataSource, UICollectio
 
 
 
+    //Zubair: Please implement delegate and datasource inside extensions
 // MARK: - Collection view data source and delegate methods
 
     

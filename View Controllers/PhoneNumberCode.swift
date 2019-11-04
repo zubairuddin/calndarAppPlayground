@@ -12,9 +12,10 @@ import MBProgressHUD
 
 class PhoneNumberCode: UIViewController {
     
-    var myAddedUserID = ""
+    var myAddedUserID = "" //Zubair: This is unused
     var ref: DocumentReference? = nil
     
+    //Zubair: Please use initials for IBOutlets
     @IBOutlet weak var textCodeInput: UITextField!
     
     @IBOutlet weak var completeRegistrationSettings: UIButton!
@@ -62,14 +63,14 @@ class PhoneNumberCode: UIViewController {
     
             }
             else{
-                
-//                        self.performSegue(withIdentifier: "userRegistered2", sender: self)
-                
+                                
             let uid = Auth.auth().currentUser?.uid
             
+            //Zubair: I would recommend not to access Firestore from within the ViewController. A much better way is to create a manager class let's say FirebaseManager and write all your firebase related code there along with any references, don't declare firebase references within view controllers either
             let dbStore = Firestore.firestore()
 
             //        LO: this says what we are going to be saving down to the DB
+                //Zubair: Try to use constants rather than hard coded strings
             let userDictionary = ["phoneNumber": Auth.auth().currentUser?.phoneNumber! as Any,"name": registeredName, "email": registeredEmail, "uid": uid as Any, "phoneNumbers": registeredPhoneNumbers] as [String : Any]
             
 //            Add the information to the database
@@ -113,7 +114,7 @@ class PhoneNumberCode: UIViewController {
         else{
             
 //        pop-up to let the user know they need to input the text code
-            
+            //Zubair: Use extension
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please eneter the text code"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
@@ -126,7 +127,7 @@ class PhoneNumberCode: UIViewController {
     }
     
     
-    
+    //Zubair: Move it to the top
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -141,16 +142,19 @@ class PhoneNumberCode: UIViewController {
         
         
         //        restrict the rotation of the device to portrait
+        
+        //Zubair: What is the need to do this programatically when you can simply check the Portrait option from the General tab?
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
         
         
         navigationController?.navigationBar.tintColor = UIColor.white
         
-        
+        //Zubair: A better way to do this is to use extension on UIColor
         view.backgroundColor = UIColor(red: 0, green: 176, blue: 156)
         
         //        setup next button
                
+        //Zubair: Please use subclasses rather than writing large number of lines of code everywhere
                completeRegistrationSettings.layer.borderColor = UIColor.lightGray.cgColor
                completeRegistrationSettings.layer.borderWidth = 2
                completeRegistrationSettings.layer.cornerRadius = 5
@@ -196,6 +200,7 @@ class PhoneNumberCode: UIViewController {
     func checkForPhoneNumberInvited(phoneNumber: String, completion: @escaping () -> Void){
         
         print("running func checkForPhoneNumberInvited, inputs: phoneNumber: \(phoneNumber)")
+        //Zubair: As I said above, use a FirebaseManager class for all the operations related to firebase
         dbStore.collection("temporaryUserEventStore").whereField("phoneNumber", isEqualTo: phoneNumber).getDocuments { (querySnapshot, error) in
             if error != nil {
                 print("Error getting documents: \(error!)")
@@ -231,6 +236,7 @@ class PhoneNumberCode: UIViewController {
         }}
     
     //    deletes the entry for the phone number into the temporaryUserEventStore
+    //Zubair: This function should be a part of your FirebaseManager rather than the View Controller
     func deletePhoneNumberInvited(phoneNumber: String){
         
         print("running func deletePhoneNumberInvited, inputs: phoneNumber \(phoneNumber)")
@@ -252,6 +258,7 @@ class PhoneNumberCode: UIViewController {
                 }}}}
     
     
+    //Zubair: If you handle keyboard events using subclass/protocols or a third party library, you won't have to write below code in multiple classes.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {

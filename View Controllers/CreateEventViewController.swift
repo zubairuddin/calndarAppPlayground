@@ -17,6 +17,7 @@ import Fabric
 import Crashlytics
 
 //Gloabl variables available to any viewController
+//Zubair: As I said earlier, use a global manager class for all the firebase related stuff
 var settings = dbStore.settings
 var dbStore = Firestore.firestore()
 var userEventList = [eventSearch]()
@@ -52,10 +53,11 @@ public var screenHeight: CGFloat {
 }
 
 
-
+//Zubair: I would suggest conforming using extensions just for better readablity and to be more swifty.
 class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource {
 
 //    variables for setting menu items and segues
+    //Zubair: Please use constants
     var menuLabels = [["Create An Event"," Your Events"],["Friends Events","Friend Circles (coming soon)"],["Upload A Photo (coming soon)",""]]
     var pictureNames = [["PlusCircleCloud","Person"],["Meeting","People"],["Camera",""]]
 //    var pictureNames = [["RP - Calendar","RP - Your events"],["Meeting","RP - Friends Circle"],["RP - Upload a Photo",""]]
@@ -86,7 +88,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
     //        create Circleit title
     
     
-   
+   //Zubair: Use proper initials for IBOutlets
     @IBOutlet var collectionViewMenu: UICollectionView!
     
     @IBOutlet weak var testTheCodeButton: UIButton!
@@ -108,6 +110,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Zubair: viewDidLoad() contains around 300 lines here which is too much. It should only contain basic setup code and calls to some functions when the view loads.
 //      check that the user is in our user database, or log them out
         
         checkUserInUserDatabase()
@@ -129,7 +132,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         navigationItem.titleView = navLabel
         
 
-        
+        //Zubair: If this is used at multiple places, why not use extensions for this
         let welcomeText = NSMutableAttributedString(string: "Welcome to Circle",
                                                     attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16),NSAttributedString.Key.foregroundColor: UIColor.black])
         
@@ -180,6 +183,8 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         collectionViewMenu.dataSource = self
         
 //        date formats
+        
+        //Zubair: Please try to use functions as much as possible
         dateFormatterForResultsCreateEvent.dateFormat = "E d MMM HH:mm"
         dateFormatterForResultsCreateEvent.locale = Locale(identifier: "en_US_POSIX")
         dateFormatterTime.dateFormat = "HH:mm"
@@ -200,7 +205,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         let semaphore = DispatchSemaphore(value: 0)
         let queue = DispatchQueue.global()
         
-        
+        //Zubair: Don't write firebase code here, use a manager class.
         var newEventListener = dbStore.collection("userEventStore").whereField("uid", isEqualTo: user!).addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
@@ -280,7 +285,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         }
         
         
-        //    listener to detect when an event we have been invited to or created has had its chosen date set
+        //Zubair: Don't write firebase code here. As I said earlier, use a global manager class for this.
        var dateChosenListener = dbStore.collection("userEventStore").whereField("uid", isEqualTo: user!).addSnapshotListener { querySnapshot, error in
             guard let snapshot = querySnapshot else {
                 print("Error fetching snapshots: \(error!)")
@@ -309,6 +314,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
                             //            print("date chosen: \(diff.document.get("chosenDate") ?? "date chosen did not unwrap")")
                             let eventID = diff.document.get("eventID")
                             print("date chosen listener eventID \(String(describing: eventID))")
+                            //Zubair: Try to avoid force unwrapping whenever possible. Use guard let or if let to unwrap optionals
                             let chosenDateCreate = diff.document.get("chosenDate") as! String
                             print("date chosen listener chosen date \(chosenDateCreate)")
                             dbStore.collection("eventRequests").document(eventID as! String).getDocument(completion: { (documentEventData, error) in
@@ -328,6 +334,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
                                         
                                         print(documentEventData!)
                                     
+                                        //Zubair: Try avoiding force unwrapping of optionals
                                     let startTimeString = documentEventData!.get("startTimeInput") as! String
                                         
                                     let allStartDates = documentEventData!.get("startDates") as! [String]
@@ -383,7 +390,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         
         }
         
-        
+    //Zubair: This should be outside of viewDidLoad
     func viewWillDisappear(_ animated: Bool) {
             
             newEventListener.remove()
@@ -391,17 +398,12 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         
             
         }
-
-
-        
-
-        
-        
     }
 
     
     //    MARK: CollectionView Setup
     
+    //Zubair: If delegate and datasource methods are written within extensions, it's better for readability
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let noSections = 2
@@ -424,6 +426,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
         }
         
         
+        //Zubair: Cell formatting code should be within your custom cell class and not within cellForRowAtIndexPath. This method gets called multiple times, if we use formatting code within this, it would have an impact on performance
         cell.layer.cornerRadius = 10
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.clear.cgColor
@@ -477,6 +480,7 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
     }
     
     //        Requests permission to send push notifications to the user
+    //Zubair: I believe you can write the code to register for push notifications in AppDelegate
     func registerForPushNotifications() {
         UNUserNotificationCenter.current()
             .requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -564,6 +568,8 @@ class CreateEventViewController: UIViewController, UICollectionViewDelegate,UICo
 
 
 // Mark: Code - used to house all the global functions within the App
+
+//Zubair: Create a separate class rather than writing global functions within UIViewController itself
 extension UIViewController {
     
     
@@ -793,6 +799,7 @@ extension UIViewController {
         var userName = String()
         
         
+        //Zubair: Use the global firebase class
         dbStore.collection("users").whereField("phoneNumbers", arrayContains: phoneNumber).getDocuments { (querySnapshot, error) in
             
             print("querySnapshot \(String(describing: querySnapshot))")
@@ -856,6 +863,7 @@ extension UIViewController {
                 nameToUpload = names[indexOfItem!]
             }
         
+            //Zubair: Use the global Firebase Manager class
             dbStore.collection("temporaryUserEventStore").addDocument(data: ["eventID": eventID, "phoneNumber": phoneNumber, "name": nameToUpload])
             
         }
@@ -875,6 +883,7 @@ extension UIViewController {
         
         while n <= numberOfUsers - 1{
         
+            //Zubair: Use the global Firebase Manager class
         dbStore.collection("userEventStore").addDocument(data: ["eventID": eventID, "uid": userID[n], "userName": userName[n]])
             
 //            adds the username to the real time database
@@ -941,7 +950,7 @@ extension UIViewController {
         print("running func getCurrentUsersPhoneNumber2")
         
         var usersPhoneNumber = String()
-        
+        //Zubair: Use the global Firebase Manager class
         dbStore.collection("users").whereField("uid", isEqualTo: user!).getDocuments{ (querySnapshot, error) in
             if error != nil {
                 print("Error getting documents: \(error!)")
@@ -1090,12 +1099,16 @@ func cleanPhoneNumbers(phoneNumbers: String) -> String{
             
             let parameters = ["From": "+17372105712", "To": phoneNumbers, "Body": "Hello from the Circleit Team! Your friend XX invited you to sign-up, click the link below to download the App and join the Circleit revolution"]
             
-            Alamofire.request(twilioLogIn.url, method: .post, parameters: parameters)
-                .authenticate(user: twilioLogIn.accountSID, password: twilioLogIn.authToken)
-                .responseString { response in
-                    debugPrint(response)
-                    
-            }}}
+//            Alamofire.request(twilioLogIn.url, method: .post, parameters: parameters)
+//                .authenticate(user: twilioLogIn.accountSID, password: twilioLogIn.authToken)
+//                .responseString { response in
+//                    debugPrint(response)
+//
+//            }
+            
+        }
+        
+    }
     
     
 
@@ -1322,6 +1335,7 @@ func cleanPhoneNumbers(phoneNumbers: String) -> String{
         
         print("running func eventAdditionComplete")
         
+        //Zubair: You can write UIAlertController code within an extension of UIViewController so that you don't have to create it every time you need to use it.
         let alertEventComplete = UIAlertController(title: "Congratualtions! Your event has been created", message: "Check 'Your Events' to see responses", preferredStyle: UIAlertController.Style.alert)
         
         alertEventComplete.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
@@ -1384,6 +1398,7 @@ func resultsResponseComplete(){
         var arrayForEventResultsPageAvailability = [[Any]]()
         let docRefUserEventStore = dbStore.collection("userEventStore")
         
+        //Zubair: Use the global firebase manager class.
         docRefUserEventStore.whereField("eventID", isEqualTo: eventID).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -1442,6 +1457,7 @@ func resultsResponseComplete(){
         var nonExistentNames = Array<Any>()
         let docRefUserEventStore = dbStore.collection("temporaryUserEventStore")
         
+        //Zubair: Use the global firebase manager class
         docRefUserEventStore.whereField("eventID", isEqualTo: eventID).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -1474,7 +1490,7 @@ func resultsResponseComplete(){
         let docRefUserEventStore = dbStore.collection("temporaryUserEventStore")
         
         for names in userNames{
-        
+        //Zubair: Use the global firebase manager class
         docRefUserEventStore.whereField("eventID", isEqualTo: eventID).whereField("name", isEqualTo: names).getDocuments() { (querySnapshot, err) in
             
             print("querySnapshot: \(String(describing: querySnapshot))")
@@ -1504,6 +1520,7 @@ func resultsResponseComplete(){
         
         print("running func getDayOfTheWeekArray2 inputs - eventID: \(eventID)")
         
+        //Zubair: Use the global firebase manager class
         let docRef = dbStore.collection("eventRequests").document(eventID)
         print(eventID)
         var daysOfTheWeek2 = [Int]()
@@ -2125,6 +2142,7 @@ func resultsResponseComplete(){
         var startDates = [String]()
         var endDates = [String]()
         
+        //Zubair: Use the global firebase manager class
         docRef.getDocument(
             completion: { (document, error) in
                 if error == nil {
@@ -2226,9 +2244,7 @@ func resultsResponseComplete(){
         dateFormatterSimple.locale = Locale(identifier: "en_US_POSIX")
         dateFormatterTZ.locale = Locale(identifier: "en_US_POSIX")
         
-    
-        
-        
+        //Zubair: Use the global firebase manager class
         let docRef = dbStore.collection("eventRequests").document(eventID)
         
         docRef.getDocument(
@@ -2323,7 +2339,7 @@ func resultsResponseComplete(){
         
     }
     
-    
+    //Zubair: Use the global firebase manager class
     func signOut(){
       
          let firebaseAuth = Auth.auth()
@@ -2350,7 +2366,7 @@ func resultsResponseComplete(){
         
         let phoneNumber = UserDefaults.standard.value(forKey: "userPhoneNumber")
         
-        
+        //Zubair: Use the global firebase manager class
         dbStore.collection("users").whereField("phoneNumber", isEqualTo: phoneNumber!).getDocuments { (querySnapshot, error) in
         
                         print("querySnapshot from user check \(String(describing: querySnapshot))")

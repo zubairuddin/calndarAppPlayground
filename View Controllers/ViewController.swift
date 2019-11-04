@@ -19,7 +19,7 @@ var availabilitySummaryArray = [[Any]]()
 var fractionResults = [[Any]]()
 var noResultsArrayGlobal = [Int]()
 
-
+//Zubair: The View Controller class should be named according to the function it performs
 class  ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     //    variables for the apple event calendar
@@ -116,6 +116,8 @@ class  ViewController: UIViewController, UITableViewDataSource, UITableViewDeleg
         dbStore.settings = settings
 
 //        capital HH denotes the 24hr clock
+        
+        //Zubair: I would suggest creating custom class for your dateFormatters too since they are used at multiple places
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         dateFormatterSimple.dateFormat = "yyyy-MM-dd"
         dateFormatterForResults.dateFormat = "E d MMM"
@@ -168,6 +170,7 @@ class  ViewController: UIViewController, UITableViewDataSource, UITableViewDeleg
 //    function for pulling down the array containing the days of the week our event can be on
     func getDayOfTheWeekArray(eventID: String){
         
+        //Zubair: Write firebase stuff inside your global firebase manager
         let docRef = dbStore.collection("eventRequests").document(eventID)
         print(eventID)
         
@@ -258,6 +261,7 @@ class  ViewController: UIViewController, UITableViewDataSource, UITableViewDeleg
         userEventList.removeAll()
         userEventListSorted.removeAll()
         
+        //Zubair: Write firebase stuff inside your global firebase manager
         dbStore.collection("eventRequests").whereField("eventOwner", isEqualTo: user!).getDocuments { (querySnapshot, error) in
             if error != nil {
                 print("Error getting documents: \(error!)")
@@ -302,13 +306,11 @@ class  ViewController: UIViewController, UITableViewDataSource, UITableViewDeleg
     
 //    reloads the table views whenever the page apears, this ensures it refreshes when a user creates a new event
     override func viewWillAppear(_ animated: Bool) {
-        
-        
-        
         userCreatedEvents.reloadData()
     }
     
     
+    //Zubair: It would be much better if delegate and datasource methods are written within extensions.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let numberOfRows = 1
@@ -352,6 +354,7 @@ class  ViewController: UIViewController, UITableViewDataSource, UITableViewDeleg
         
         cell.userCreatedCellLabel3.text = ("Time: \(item.eventStartTime) - \(item.eventEndTime)")
         
+        //Zubair: This shouldn't be a part of UIViewController, you can write this your custom cell class
         cell.userCreatedCellLabel1.adjustsFontSizeToFitWidth = true
         cell.userCreatedCellLabel2.adjustsFontSizeToFitWidth = true
         cell.userCreatedCellLabel3.adjustsFontSizeToFitWidth = true

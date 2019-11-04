@@ -17,7 +17,7 @@ var registeredPhoneNumbers = [String]()
 
 class PhoneNumberInput: UIViewController {
     
-    
+    //Zubair: Please use appropriate initials for IBOutlets
     @IBOutlet weak var phoneNumberTextField: FPNTextField!
     
     
@@ -36,18 +36,17 @@ class PhoneNumberInput: UIViewController {
             
             print(phoneNumberTextField.text ?? "")
          
+            //Zubair: If this is written within an extension, you would need to write it once and use anywhere
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please eneter your phone number"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
             loadingNotification.mode = MBProgressHUDMode.customView
             loadingNotification.hide(animated: true, afterDelay: 1)
-            
-            
         }
         
         else{
             
-        
+            //Zubair: Rather than using hard coded strings, use constants
             performSegue(withIdentifier: "getActiviationCode", sender: Any?.self)}
         
         
@@ -73,9 +72,14 @@ class PhoneNumberInput: UIViewController {
         
         
         //        move the view up when the keyboard is active
+        
+        //Zubair: I saw keyboard handling code written in multiple classes. This is again a very bad practice. You should either write the code in a custom class/protocol or use a third party library such as IQKeyboardManager.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
+        
+        //Zubair: Again, multiple lines are written within viewDidLoad. Please try to avoid it and use functions whereever possible.
+        
         //        code for the setup of the country picker
         phoneNumberTextField.borderStyle = .roundedRect
         
@@ -123,6 +127,7 @@ class PhoneNumberInput: UIViewController {
         
         //        setup next button
                
+        //Zubair: As I said earlier, if similar formatting is required for multiple UI components, it is must that you subclass those UI components.
                getActiviationCodeSettings.layer.borderColor = UIColor.lightGray.cgColor
                getActiviationCodeSettings.layer.borderWidth = 2
                getActiviationCodeSettings.layer.cornerRadius = 5
@@ -155,6 +160,8 @@ class PhoneNumberInput: UIViewController {
                 
             
             let phoneNumber = phoneNumberTextField.getFormattedPhoneNumber(format: .E164) ?? "E164: nil"
+            
+            
             PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
                 if let error = error {
                     print(error)

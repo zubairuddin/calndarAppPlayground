@@ -14,22 +14,15 @@ import Firebase
 class HomePageViewController: UIViewController {
     
     
+    
+    //Zubair: Can we use initials while creating outlets such as lbl for labels, btn for buttons, img for ImageViews. E.g. lblUserName, btnSaveUser, imgUserImage. This way you won't have to remember the name of the outlet you have created while trying to use it later on and when you type the initial let's say lbl, Xcode will give you suggestions and you can select the appropriate label.
+    
     @IBOutlet weak var openingTitleLabel: UILabel!
-    
     @IBOutlet weak var loginButtonSettings: UIButton!
-    
-    
-    
     @IBOutlet weak var oldUserButton: UIButton!
     
-    
-
     @IBAction func oldUserButtonPressed(_ sender: UIButton) {
-        
-        
         performSegue(withIdentifier: "oldUserSegue", sender: self)
-        
-        
     }
     
     
@@ -53,6 +46,8 @@ class HomePageViewController: UIViewController {
 //        navigationController?.navigationBar.barTintColor = UIColor(red: 0, green: 176, blue: 156)
         
         
+        //Zubair: Let's use functions whenever a task that requires more than 5-6 lines of code to make everything more readable.
+        //The remaining code in viewDidLoad can easily be written into 2 separate functions
         view.backgroundColor = UIColor(red: 0, green: 176, blue: 156)
         
         
@@ -62,9 +57,8 @@ class HomePageViewController: UIViewController {
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
         
         
+        //Zubair: You are using exactly the same code to format loginButtonSettings and oldUserButton. You can easily do that inside a function passing a UIButton as parameter so that you won't have to repeat the same code again for multiple buttons.
         
-        //        setup register button
-              
               loginButtonSettings.layer.borderColor = UIColor.lightGray.cgColor
               loginButtonSettings.layer.borderWidth = 2
               loginButtonSettings.layer.cornerRadius = 5
@@ -78,7 +72,7 @@ class HomePageViewController: UIViewController {
         
             loginButtonSettings.alpha = 0.90
         
-        oldUserButton.layer.borderColor = UIColor.lightGray.cgColor
+            oldUserButton.layer.borderColor = UIColor.lightGray.cgColor
               oldUserButton.layer.borderWidth = 2
               oldUserButton.layer.cornerRadius = 5
               oldUserButton.layer.backgroundColor = UIColor.white.cgColor
@@ -96,19 +90,13 @@ class HomePageViewController: UIViewController {
         
 //        only check the users authentication state if they havent just logged out, the check should log in the user in automatically
         if justSignedOutBool == false{
-            
             print("user hasn't just signed out")
-          
             checkLogIn()
         }
         else{
             
             print("user has just signed out")
-            
         }
-        
-        
-        
         
         
         let welcomeText = NSMutableAttributedString(string: "Circle",

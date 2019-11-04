@@ -30,6 +30,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
     
     var combinedInviteesNames = inviteesNames + nonUserInviteeNames + inviteesNamesNew
 
+    //Zubair: Please use naming convention for IBOutlets I have mentioned
     @IBOutlet var eventTitle: UITextField!
     
     
@@ -156,7 +157,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
         
         view.addGestureRecognizer(tap)
         
-        
+        //
         eventTitle.text = eventResultsArrayDetails[2][1] as? String
         eventLoction.text = eventResultsArrayDetails[1][1] as? String
         eventStartTime.text = convertToLocalTime(inputTime: (eventResultsArrayDetails[6][0] as? String)!)
@@ -165,7 +166,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
         eventEndDate.text = convertToDisplayDate(inputDate:(eventResultsArrayDetails[5][0] as? String)!)
         
         
-        
+        //Zubair: Please use custom classes if this is used at multiple places
         let borderColour = UIColor(red: 250, green: 250, blue: 250)
         eventTitle.layer.borderColor = borderColour.cgColor
         eventTitle.layer.borderWidth = 1.0
@@ -193,6 +194,8 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
         self.saturdayButton.isMultipleSelectionEnabled = true;
         self.sundayButton.isMultipleSelectionEnabled = true;
         setRatioButons()
+        
+        //Zubair: Again, use functions. viewDidLoad is around 100 lines and can easily be reduced
     }
     
     
@@ -258,6 +261,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
         
         if eventTitle.text == "" {
             
+            //Zubair: As I said earlier, if you create a custom class/extension for MBProgressHUD, it would save a lot of re-writing of code
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please add an event title"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
@@ -395,6 +399,8 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
 //            commit the updated event information to the database
             
             let documentID = eventResultsArrayDetails[3][1] as? String
+                //Zubair: Again you are using firebase code within UIViewController. It should be done within a Firebase Manager class.
+                //Zubair: Use constants rather than hard coded strings
                 dbStore.collection("eventRequests").document(documentID!).setData(["eventDescription" : self.eventTitle.text!, "location" : self.eventLoction.text!, "endTimeInput" :self.convertToGMT(inputTime: self.eventEndTime.text!), "startTimeInput" :self.convertToGMT(inputTime: self.eventStartTime.text!), "endDateInput" : self.convertToStringDate(inputDate: self.eventEndDate.text!), "startDateInput" : self.convertToStringDate(inputDate:self.eventStartDate.text!), "daysOfTheWeek" : daysOfTheWeekNewEvent, "startDates": startDates, "endDates": endDates], merge: true)
             
 //            updated the realtime database
@@ -425,6 +431,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
                 print("event timmings have changed")
                 deleteEventStoreAvailability(eventID: eventIDChosen)
                 
+                //Zubair: Use custom object or extension
                 let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
                 loadingNotification.label.text = "Event Information Updated - availability data reset"
                 loadingNotification.label.adjustsFontSizeToFitWidth = true
@@ -604,7 +611,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
     
     
     
-    
+    //Zubair: Please write delegate and datasource methods within extensions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         var numberOfRows = Int()
@@ -631,6 +638,8 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
         
         cell.delegate = self
         cell.cellLabel.text = combinedInvitees[indexPath.row]
+        
+        //Zubair: Configuration code shouldn't be within cellForRowAtIndexPath
         cell.backgroundColor = UIColor.white
         cell.layer.borderColor = UIColor.lightGray.cgColor
         cell.layer.borderWidth = 1
@@ -748,6 +757,7 @@ class EventEditViewController: UIViewController, UITableViewDelegate,UITableView
     
     func deleteEventStore(eventID: String){
         
+        //Zubair: All firebase code should be written within a manager class
         let docRefUserEventStore = dbStore.collection("userEventStore")
         
         docRefUserEventStore.whereField("eventID", isEqualTo: eventID).getDocuments() { (querySnapshot, err) in

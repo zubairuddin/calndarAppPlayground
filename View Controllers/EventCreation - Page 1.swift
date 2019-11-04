@@ -28,6 +28,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
     
     /// Get distance from top, based on status bar and navigation
     public var topDistance : CGFloat{
+        //Zubair: I don't think writing get is mandatory here :)
          get{
              if self.navigationController != nil && !self.navigationController!.navigationBar.isTranslucent{
                  return 0
@@ -55,14 +56,14 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
     var userEventChoicesimages = ["Dinner500","Drinks500","Lunch500","Coffee500","Party500","Meeting"]
 //    var userEventChoicesimages = ["RP - Dinner","RP - Drinks","Lunch","RP - Coffee","Meeting"]
     
-    
+    //Zubair: Please use the naming conventions I have suggested for IBOutlets
     @IBOutlet weak var collectionViewEventType: UICollectionView!
     
     
     @IBOutlet weak var quickCreate: UILabel!
     
 
-    
+    //Zubair: It would be nice if IBActions are written after lifecycle methods and each portion of the class is marked using MARK for better readability
     @IBAction func eventLocationInformationButton(_ sender: UIButton) {
       
         popTip.bubbleColor = circleColour
@@ -89,7 +90,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     
- 
+ //Zubair: All the outlets should have been written at the same place
     @IBOutlet weak var scrollView: UIScrollView!
     
     
@@ -107,6 +108,8 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         
 //        Set the navigation bar
         self.title = "Create Event"
+        
+        //Zubair: I would prefer using an extension on UIColor
         navigationController?.navigationBar.barTintColor = UIColor(red: 0, green: 176, blue: 156)
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black, .font: UIFont.systemFont(ofSize: 20)]
         navigationController?.navigationBar.tintColor = UIColor.black
@@ -115,14 +118,17 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
         
 //        set the background colour
+        //Zubair: UIColor extension will work here too
         self.view.backgroundColor = UIColor(red: 253, green: 253, blue: 253)
         
         
 //        move the view up when the keyboard is active
+        //Zubair: Use a custom class/protocols or a third party library as I earlier suggested
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
 //        set the text field border colour
+        //Zubair: And here too
         let borderColour = UIColor(red: 250, green: 250, blue: 250)
         eventDescription.layer.borderColor = borderColour.cgColor
         eventDescription.layer.borderWidth = 1.0
@@ -176,7 +182,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         view.endEditing(true)
     }
     
-    
+    //Zubair: Write all the validation logic in a separate function, returning either true or false and call it here
     @objc func nextSelected(){
         
         dateFormatterTime.locale = Locale(identifier: "en_US_POSIX")
@@ -184,6 +190,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         
         if eventDescription.text == "" {
             
+            //Zubair: This code is also repeated at multiple places, you can avoid this using extensions or custom objects
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please add an event title"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
@@ -194,7 +201,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
             
             
         else if eventStartTime.text ==  ""{
-            
+            //Zubair: DRY (Don't Repeat Yourself) not used
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please add a start time"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
@@ -205,7 +212,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         }
             
         else if eventEndTime.text ==  ""{
-            
+            //Zubair: DRY (Don't Repeat Yourself) not used
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Please add a end time"
             loadingNotification.customView = UIImageView(image: UIImage(named: "Unavailable"))
@@ -218,7 +225,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         }
             
         else if dateFormatterTime.date(from: eventEndTime.text!)! <= dateFormatterTime.date(from: eventStartTime.text!)!{
-            
+            //Zubair: DRY (Don't Repeat Yourself) not used
             let loadingNotification = MBProgressHUD.showAdded(to: view, animated: false)
             loadingNotification.label.text = "Start time must be before start time"
             loadingNotification.label.adjustsFontSizeToFitWidth = true
@@ -294,7 +301,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
     
-    
+    //Zubair: It's good to write delegate and datasource methods within extensions
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         let numberOfColumns = userEventChoices.count
@@ -309,7 +316,7 @@ class EventCreation___Page_1: UIViewController, UICollectionViewDelegate, UIColl
                 fatalError("failed to create user created events cell")
         }
         
-        
+        //Zubair: cell configuration sould be performed in your custom cell class's awakeFrom nib and not inside cellForRowAtIndexPath
         cell.layer.cornerRadius = 5
         cell.layer.borderWidth = 0.5
         cell.layer.borderColor = UIColor.clear.cgColor

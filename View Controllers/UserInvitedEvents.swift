@@ -74,6 +74,8 @@ class UserInvitedEvents: UIViewController, UITableViewDataSource, UITableViewDel
         self.userInvitedEvents.addSubview(refreshControlCreated)
         
         //        The end of the viewDidLoad
+        
+        //Zubair: Please use functions rather than putting many lines of code within viewDidLoad
     }
     
     //    function to get any updated data once the table is pulled down
@@ -93,6 +95,7 @@ class UserInvitedEvents: UIViewController, UITableViewDataSource, UITableViewDel
         userInvitedEventList.removeAll()
         userInvitedEventListSorted.removeAll()
         var nextUserEventToAdd = eventSearch()
+        //Zubair: Please don't write any firebase code within your UIViewController class
         dbStore.collection("eventRequests").whereField("users", arrayContains: user!).getDocuments { (querySnapshot, error) in
             if error != nil {
                 print("Error getting documents: \(error!)")
@@ -136,6 +139,7 @@ class UserInvitedEvents: UIViewController, UITableViewDataSource, UITableViewDel
 
     
     //    Mark: Tableview setup
+    //Zubair: Please use extensions for delegate and datasource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let numberOfRows = 1
@@ -200,6 +204,7 @@ class UserInvitedEvents: UIViewController, UITableViewDataSource, UITableViewDel
         cell.userInvitedCellLabel2.text = ("Location: \(item.eventLocation) \nTime: \(item.eventStartTime) - \(item.eventEndTime)")
         cell.userInvitedCellLabel3.text = ("Time: \(item.eventStartTime) - \(item.eventEndTime)")
             
+        //Zubair: This type of configuration related code should never be a part of cellForRowAtIndexPath. You can write it within your custom cell class's awakeFromNib method
         cell.userInvitedCellLabel1.adjustsFontSizeToFitWidth = true
         cell.userInvitedCellLabel2.adjustsFontSizeToFitWidth = true
         cell.userInvitedCellLabel3.adjustsFontSizeToFitWidth = true
